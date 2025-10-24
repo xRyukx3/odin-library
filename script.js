@@ -6,7 +6,8 @@ function Book(title, author, year, pages, read) {
   this.author = author;
   this.year = year;
   this.pages = pages;
-  this.read = read;
+  this.isRead = read;
+  this.id = crypto.randomUUID();
 }
 
 function addBookToLibrary(book) {
@@ -15,11 +16,18 @@ function addBookToLibrary(book) {
 
 function displayLibrary(myLibrary) {
   const fragment = document.createDocumentFragment();
+  const displayKeys = ["title", "author", "year", "pages", "isRead"];
   for (const book of myLibrary) {
     const tableRow = document.createElement("tr");
-    for (const key in book) {
+    for (const key of displayKeys) {
       const tableCell = document.createElement("td");
-      tableCell.innerText = book[key];
+      let cellValue = book[key];
+      if (typeof cellValue === "boolean") {
+        tableCell.innerText = cellValue ? "already read" : "not read yet";
+      } else {
+        tableCell.innerText = cellValue;
+        console.log(cellValue);
+      }
       tableRow.appendChild(tableCell);
     }
     fragment.appendChild(tableRow);
@@ -54,5 +62,3 @@ addBookToLibrary(book2);
 addBookToLibrary(book3);
 
 displayLibrary(myLibrary);
-
-console.log(myLibrary);
