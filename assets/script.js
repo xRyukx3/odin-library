@@ -19,6 +19,7 @@ function displayLibrary(myLibrary) {
   const displayKeys = ["title", "author", "year", "pages", "isRead"];
   for (const book of myLibrary) {
     const tableRow = document.createElement("tr");
+    tableRow.id = book["id"];
     for (const key of displayKeys) {
       const tableCell = document.createElement("td");
       let cellValue = book[key];
@@ -26,8 +27,8 @@ function displayLibrary(myLibrary) {
         tableCell.innerText = cellValue ? "already read" : "not read yet";
       } else {
         tableCell.innerText = cellValue;
-        console.log(cellValue);
       }
+      tableCell.classList = key;
       tableRow.appendChild(tableCell);
     }
     fragment.appendChild(tableRow);
