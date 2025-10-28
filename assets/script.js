@@ -14,6 +14,10 @@ function Book(title, author, year, pages, read) {
   this.id = crypto.randomUUID();
 }
 
+Book.prototype.toggleReadStatus = function () {
+  this.isRead = !this.isRead;
+};
+
 function addBookToLibrary(book) {
   myLibrary.push(book);
 }
@@ -22,6 +26,13 @@ function removeBookById(id) {
   const indexToRemove = myLibrary.findIndex((obj) => obj.id === id);
   if (indexToRemove !== -1) {
     myLibrary.splice(indexToRemove, 1);
+  }
+}
+
+function changeReadStatus(id) {
+  const indexToChangeReadStatus = myLibrary.findIndex((obj) => obj.id === id);
+  if (indexToChangeReadStatus !== -1) {
+    myLibrary[indexToChangeReadStatus].toggleReadStatus();
   }
 }
 
@@ -36,7 +47,7 @@ function displayLibrary(myLibrary) {
       const tableCell = document.createElement("td");
       let cellValue = book[key];
       if (typeof cellValue === "boolean") {
-        tableCell.innerText = cellValue ? "already read" : "not read yet";
+        tableCell.innerText = cellValue ? "Already read" : "Not read yet";
       } else {
         tableCell.innerText = cellValue;
       }
@@ -47,6 +58,11 @@ function displayLibrary(myLibrary) {
     removeBookButton.id = "remove-book";
     removeBookButton.innerText = "remove";
     tableRow.appendChild(removeBookButton);
+    const changeReadStatusButton = document.createElement("button");
+    changeReadStatusButton.id = "change-read-status-button";
+    changeReadStatusButton.innerText = "Change read status";
+    tableRow.appendChild(changeReadStatusButton);
+
     fragment.appendChild(tableRow);
   }
   tableBody.appendChild(fragment);
@@ -99,13 +115,14 @@ bookDataForm.addEventListener("submit", (e) => {
 });
 
 tableBody.addEventListener("click", (e) => {
-  const removeBookButton = document.getElementById("#remove-book");
+  const id = e.target.closest("tr").id;
   if (e.target.matches("#remove-book")) {
-    const id = e.target.closest("tr").id;
-    console.log(id);
     removeBookById(id);
-    displayLibrary(myLibrary);
   }
+  if (e.target.matches("#change-read-status-button")) {
+    changeReadStatus(id);
+  }
+  displayLibrary(myLibrary);
 });
 
 closeDialogButton.addEventListener("click", (e) => {
