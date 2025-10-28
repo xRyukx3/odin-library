@@ -54,14 +54,16 @@ function displayLibrary(myLibrary) {
       tableCell.classList = key;
       tableRow.appendChild(tableCell);
     }
+    const tableCell = document.createElement("td");
     const removeBookButton = document.createElement("button");
     removeBookButton.id = "remove-book";
-    removeBookButton.innerText = "remove";
-    tableRow.appendChild(removeBookButton);
+    removeBookButton.innerText = "Remove";
+    tableCell.appendChild(removeBookButton);
     const changeReadStatusButton = document.createElement("button");
     changeReadStatusButton.id = "change-read-status-button";
     changeReadStatusButton.innerText = "Change read status";
-    tableRow.appendChild(changeReadStatusButton);
+    tableCell.appendChild(changeReadStatusButton);
+    tableRow.appendChild(tableCell);
 
     fragment.appendChild(tableRow);
   }
@@ -108,7 +110,6 @@ bookDataForm.addEventListener("submit", (e) => {
   const isRead = document.querySelector('input[name="status"]:checked').value;
 
   const book = new Book(title, author, year, pages, isRead);
-  console.log(book);
   addBookToLibrary(book);
   displayLibrary(myLibrary);
   bookDataForm.reset();
