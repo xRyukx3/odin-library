@@ -52,6 +52,19 @@ body {
   }
 }
 
+dialog#new-book-data[open] {
+  width: 400px;
+  display: grid;
+  & form {
+    display: grid;
+    grid-template-rows: repeat(auto, minmax(200px, 400px));
+  }
+}
+
+dialog#new-book-data:not([open]) {
+  display: none;
+}
+
 table,
 th,
 td {

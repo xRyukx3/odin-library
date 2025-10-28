@@ -12,6 +12,41 @@
         <button class="search-icon"></button>
         <input type="text" class="search-bar" />
       </div>
+      <dialog id="new-book-data">
+        <form id="book-data" method="dialog">
+          <label for="title">Title:</label>
+          <input type="text" id="title" />
+          <label for="author">Author:</label>
+          <input type="text" id="author" />
+          <label for="year">Year:</label>
+          <input type="number" id="year" />
+          <label for="pages">Pages:</label>
+          <input type="number" id="pages" />
+          <fieldset>
+            <legend>Status</legend>
+            <label for="isRead">Already read</label>
+            <input
+              type="radio"
+              id="isRead"
+              name="status"
+              value="Already read"
+            />
+            <label for="notRead">Not read yet</label>
+            <input
+              type="radio"
+              id="notRead"
+              name="status"
+              value="Not read yet"
+            />
+          </fieldset>
+          <fieldset>
+            <button id="add" type="submit">Add</button>
+            <button id="cancel" type="button" formmethod="dialog">
+              Cancel
+            </button>
+          </fieldset>
+        </form>
+      </dialog>
       <div class="controls">
         <button class="new-book">New book</button>
       </div>

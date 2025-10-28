@@ -1,4 +1,8 @@
 const tableBody = document.querySelector("table>tbody");
+const dialogBookDataForm = document.querySelector("dialog#new-book-data");
+const showDialogButton = document.querySelector("button.new-book");
+const closeDialogButton = document.querySelector("button#cancel");
+const bookDataForm = document.getElementById("book-data");
 const myLibrary = [];
 
 function Book(title, author, year, pages, read) {
@@ -14,7 +18,15 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
+function removeBookById(id) {
+  const indexToRemove = myLibrary.findIndex((obj) => obj.id === id);
+  if (indexToRemove !== -1) {
+    myLibrary.splice(indexToRemove, 1);
+  }
+}
+
 function displayLibrary(myLibrary) {
+  tableBody.innerHTML = "";
   const fragment = document.createDocumentFragment();
   const displayKeys = ["title", "author", "year", "pages", "isRead"];
   for (const book of myLibrary) {
@@ -31,6 +43,10 @@ function displayLibrary(myLibrary) {
       tableCell.classList = key;
       tableRow.appendChild(tableCell);
     }
+    const removeBookButton = document.createElement("button");
+    removeBookButton.id = "remove-book";
+    removeBookButton.innerText = "remove";
+    tableRow.appendChild(removeBookButton);
     fragment.appendChild(tableRow);
   }
   tableBody.appendChild(fragment);
@@ -61,5 +77,39 @@ const book3 = new Book(
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 addBookToLibrary(book3);
-
 displayLibrary(myLibrary);
+
+showDialogButton.addEventListener("click", () => {
+  dialogBookDataForm.showModal();
+});
+
+bookDataForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = document.getElementById("year").value;
+  const pages = document.getElementById("pages").value;
+  const isRead = document.querySelector('input[name="status"]:checked').value;
+
+  const book = new Book(title, author, year, pages, isRead);
+  console.log(book);
+  addBookToLibrary(book);
+  displayLibrary(myLibrary);
+  bookDataForm.reset();
+});
+
+tableBody.addEventListener("click", (e) => {
+  const removeBookButton = document.getElementById("#remove-book");
+  if (e.target.matches("#remove-book")) {
+    const id = e.target.closest("tr").id;
+    console.log(id);
+    removeBookById(id);
+    displayLibrary(myLibrary);
+  }
+});
+
+closeDialogButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  dialogBookDataForm.close();
+  bookDataForm.reset();
+});
